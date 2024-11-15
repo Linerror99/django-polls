@@ -7,7 +7,25 @@ services:
       dockerfile: dockerfile  # Nom du Dockerfile 
     volumes:
       - .:/app  # Monte le répertoire courant dans /app du conteneur
+      - db_data:/app/database # Monte le volume persistant pour la base de données SQLite
     ports:
       - "8003:8003"  # Mappe le port 8003 de l'hôte au port 8003 du conteneur
     environment:
       - ENV_VAR_NAME=value  # Exemple de variable d'environnement
+
+  mysql:  # Nom du service pour MySQL
+    image: mysql:latest  # Utilise l'image officielle de MySQL
+    restart: always  # Redémarre le conteneur automatiquement en cas d'échec
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Mot de passe pour l'utilisateur root
+      MYSQL_DATABASE: my_database  # Nom de la base de données à créer
+      MYSQL_USER: root  # Nom d'utilisateur pour la base de données
+      MYSQL_PASSWORD: password  # Mot de passe pour l'utilisateur
+    volumes:
+      - mysql_data:/var/lib/mysql  # Monte le volume persistant pour les données MySQL
+    ports:
+      - "3306:3306"  # Mappe le port 3306 de l'hôte au port 3306 du conteneur
+
+volumes:
+  db_data:  # Définition du volume persistant pour SQLite
+  mysql_data:  # Définition du volume persistant pour MySQL
