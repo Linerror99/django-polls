@@ -1,0 +1,13 @@
+version: '3.8'  # Version de Docker Compose
+
+services:
+  app:  # Nom du service
+    build:
+      context: .  # Répertoire où se trouve le Dockerfile
+      dockerfile: dockerfile  # Nom du Dockerfile 
+    volumes:
+      - .:/app  # Monte le répertoire courant dans /app du conteneur
+    ports:
+      - "8003:8003"  # Mappe le port 8003 de l'hôte au port 8003 du conteneur
+    environment:
+      - ENV_VAR_NAME=value  # Exemple de variable d'environnement
